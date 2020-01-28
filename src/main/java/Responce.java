@@ -55,7 +55,7 @@ public class Responce {
         defaultHeaders.put("Server", "MyFavoriteServer");
         defaultHeaders.put("LastModified", LocalDate.MIN.toString());
         defaultHeaders.put("Content-Length", String.valueOf(this.body.length));
-        defaultHeaders.put("Content-Type", "text/html");
+        defaultHeaders.put("Content-Type", "text/html; charset=utf-8");
         defaultHeaders.put("Connection", "Closed");
         this.setHeaders(defaultHeaders);
     }
