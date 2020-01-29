@@ -13,7 +13,7 @@ public class Utils {
         String[] firstRequestString = requestArray[0].split(" ");
 
         getRequest.setMethod(firstRequestString[0]);
-        getRequest.setResourcePath(firstRequestString[1]);
+        getRequest.setResourceRelativePath(firstRequestString[1]);
         getRequest.setHttpVersion(firstRequestString[2]);
 
         Map<String, String> headers = new HashMap<>();

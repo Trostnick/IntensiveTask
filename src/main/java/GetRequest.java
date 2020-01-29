@@ -4,7 +4,7 @@ public class GetRequest {
 
     private byte[] data;
     private String method;
-    private String resourcePath;
+    private String resourceRelativePath;
     private String httpVersion;
     private Map<String, String> headers;
 
@@ -14,7 +14,7 @@ public class GetRequest {
     public GetRequest(byte[] data, String method, String resource, String httpVersion, Map<String, String> headers) {
         this.data = data;
         this.method = method;
-        this.resourcePath = resource;
+        this.resourceRelativePath = resource;
         this.httpVersion = httpVersion;
         this.headers = headers;
     }
@@ -35,12 +35,12 @@ public class GetRequest {
         this.method = method;
     }
 
-    public String getResourcePath() {
-        return resourcePath;
+    public String getResourceRelativePath() {
+        return resourceRelativePath;
     }
 
-    public void setResourcePath(String resourcePath) {
-        this.resourcePath = resourcePath;
+    public void setResourceRelativePath(String resourceRelativePath) {
+        this.resourceRelativePath = resourceRelativePath;
     }
 
     public String getHttpVersion() {
