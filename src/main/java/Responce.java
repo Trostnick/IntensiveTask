@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -50,17 +52,15 @@ public class Responce {
     }
 
     private void generateDefultHeaders() {
-        Map<String, String> defaultHeaders =new HashMap<>();
+        Map<String, String> defaultHeaders = new HashMap<>();
         defaultHeaders.put("Date", LocalDate.now().toString());
-        defaultHeaders.put("Server", "MyFavoriteServer");
-        defaultHeaders.put("LastModified", LocalDate.MIN.toString());
         defaultHeaders.put("Content-Length", String.valueOf(this.body.length));
         defaultHeaders.put("Content-Type", "text/html; charset=utf-8");
         defaultHeaders.put("Connection", "Closed");
         this.setHeaders(defaultHeaders);
     }
 
-    public byte[] toBytes() {
+    public byte[] toBytes() throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(this.httpVersion).append(" ");
         stringBuilder.append(this.status);
@@ -71,9 +71,11 @@ public class Responce {
         }
 
         stringBuilder.append("\r\n\r\n");
-        stringBuilder.append(Arrays.toString(this.body));
-        return stringBuilder.toString().getBytes();
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byteArrayOutputStream.write(stringBuilder.toString().getBytes());
+        byteArrayOutputStream.write(this.body);
+
+        return byteArrayOutputStream.toByteArray();
     }
-
-
 }

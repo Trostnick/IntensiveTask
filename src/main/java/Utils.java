@@ -10,15 +10,14 @@ public class Utils {
         String requestString = new String(requestBytes);
 
         String[] requestArray = requestString.trim().split("\r\n");
-        String[] firstRequestString = requestArray[0].split(" ");
 
+        String[] firstRequestString = requestArray[0].split(" ");
         getRequest.setMethod(firstRequestString[0]);
         getRequest.setResourceRelativePath(firstRequestString[1]);
         getRequest.setHttpVersion(firstRequestString[2]);
 
         Map<String, String> headers = new HashMap<>();
         String[] currentHeader;
-
         for (int i = 1; i < requestArray.length; i++) {
             currentHeader = requestArray[i].split(": ");
             headers.put(currentHeader[0], currentHeader[1]);

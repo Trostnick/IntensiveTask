@@ -4,17 +4,14 @@ import java.net.Socket;
 
 public class Task2 {
 
-
     private static final String RESOURCE_FOLDER = "D:\\IdeaProject\\TechLeaders\\src\\main\\resources";
 
     public static void main(String[] args) {
         try(ServerSocket serverSocket = new ServerSocket(5555);) {
             handleGetRequestFromServerSocket(serverSocket);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private static void handleGetRequestFromServerSocket(ServerSocket serverSocket) throws IOException{
@@ -29,8 +26,6 @@ public class Task2 {
             Responce responce = new Responce(request.getHttpVersion(), "200 OK",
                     responceBody);
             responceOutputStream.write(responce.toBytes());
-
-
         }
     }
 }
