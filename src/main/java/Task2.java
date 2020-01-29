@@ -21,6 +21,7 @@ public class Task2 {
             try (InputStream requestInputStream = socket.getInputStream();
                  OutputStream responseOutputStream = socket.getOutputStream()) {
 
+
                 GetRequest getRequest = Utils.readRequestFromInputStream(requestInputStream);
                 File resourceFile = new File(RESOURCE_FOLDER + getRequest.getResourceRelativePath());
 
@@ -31,6 +32,8 @@ public class Task2 {
 
                 Response response = new Response(getRequest.getHttpVersion(), "200 OK", responseBody);
                 responseOutputStream.write(response.toBytes());
+            } catch (IOException | BadRequestException ignored)   {
+                //TODO: сделать возврат статуса ошибки и страници ошибки
             }
         }
     }

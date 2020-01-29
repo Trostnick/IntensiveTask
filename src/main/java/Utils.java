@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Utils {
 
-    public static GetRequest readRequestFromInputStream(InputStream inputStream) throws IOException {
+    public static GetRequest readRequestFromInputStream(InputStream inputStream) throws IOException, BadRequestException {
         GetRequest getRequest = new GetRequest();
         byte[] requestBytes = readInputStreamAsByteArray(inputStream);
         String requestString = new String(requestBytes);
@@ -13,8 +13,13 @@ public class Utils {
 
         String[] firstRequestString = requestArray[0].split(" ");
         getRequest.setMethod(firstRequestString[0]);
-        getRequest.setResourceRelativePath(firstRequestString[1]);
-        getRequest.setHttpVersion(firstRequestString[2]);
+
+        try {
+            getRequest.setResourceRelativePath(firstRequestString[1]);
+            getRequest.setHttpVersion(firstRequestString[2]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new BadRequestException("Incorrect first row in request");
+        }
 
         Map<String, String> headers = new HashMap<>();
         String[] currentHeader;
@@ -27,11 +32,11 @@ public class Utils {
     }
 
     public static byte[] readInputStreamAsByteArray(InputStream inputStream) throws IOException {
-            int bytesCount = inputStream.available();
-            byte[] result = new byte[bytesCount];
-            int errorCode = inputStream.read(result);
-            if (errorCode == -1) throw new IOException("Error reading file");
-            return result;
+        int bytesCount = inputStream.available();
+        byte[] result = new byte[bytesCount];
+        int errorCode = inputStream.read(result);
+        if (errorCode == -1) throw new IOException("Error reading file");
+        return result;
     }
 
 
