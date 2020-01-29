@@ -1,22 +1,21 @@
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Responce {
+public class Response {
 
     private String httpVersion;
     private String status;
     private Map<String, String> headers;
     private byte[] body;
 
-    public Responce(String httpVersion, String status, byte[] body) {
+    public Response(String httpVersion, String status, byte[] body) {
         this.httpVersion = httpVersion;
         this.status = status;
         this.body = body;
-        this.generateDefultHeaders();
+        this.generateDefaultHeaders();
     }
 
     public String getHttpVersion() {
@@ -51,7 +50,7 @@ public class Responce {
         this.body = body;
     }
 
-    private void generateDefultHeaders() {
+    private void generateDefaultHeaders() {
         Map<String, String> defaultHeaders = new HashMap<>();
         defaultHeaders.put("Date", LocalDate.now().toString());
         defaultHeaders.put("Content-Length", String.valueOf(this.body.length));
