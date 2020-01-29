@@ -27,13 +27,11 @@ public class Utils {
     }
 
     public static byte[] readInputStreamAsByteArray(InputStream inputStream) throws IOException {
-        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
             int bytesCount = inputStream.available();
             byte[] result = new byte[bytesCount];
-            int errorCode = bufferedInputStream.read(result);
+            int errorCode = inputStream.read(result);
             if (errorCode == -1) throw new IOException("Error reading file");
             return result;
-        }
     }
 
 
