@@ -1,6 +1,7 @@
 public class Constants {
 
-    public static final String RESOURCE_FOLDER = "D:\\IdeaProject\\TechLeaders\\src\\main\\resources";
+    public final static String RESOURCE_DIRECTORY_PATH = System.getProperty("user.dir") + "src/main/java/resources/";
+    public static final String LOGGING_PROPERTY_FILE_NAME = "logging.properties";
 
     private Constants() {
     }

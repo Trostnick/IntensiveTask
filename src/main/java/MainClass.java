@@ -6,15 +6,14 @@ import java.util.logging.Logger;
 
 public class MainClass {
 
-    private static final String LOGGING_PROPERTY_FILE_RELATIVE_PATH = "src/main/java/resources/logging.properties";
-
-    private static Logger log = Logger.getLogger(MainClass.class.getName());
+    public static Logger log = Logger.getLogger(MainClass.class.getName());
 
     public static void main(String[] args) {
+
         try {
             LogManager.getLogManager().readConfiguration(
-                    MainClass.class.getResourceAsStream(System.getProperty("user.dir")
-                            + LOGGING_PROPERTY_FILE_RELATIVE_PATH));
+                    MainClass.class.getResourceAsStream(Constants.RESOURCE_DIRECTORY_PATH
+                            + Constants.LOGGING_PROPERTY_FILE_NAME));
         } catch (IOException e) {
             System.err.println("Could not setup logger configuration: " + e.toString());
         }
@@ -26,5 +25,4 @@ public class MainClass {
             log.log(Level.SEVERE, "Exception:", e);
         }
     }
-
 }
