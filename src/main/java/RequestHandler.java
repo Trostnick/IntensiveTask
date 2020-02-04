@@ -2,19 +2,9 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Task2 {
+public class RequestHandler {
 
-    private static final String RESOURCE_FOLDER = "D:\\IdeaProject\\TechLeaders\\src\\main\\resources";
-
-    public static void main(String[] args) {
-        try (ServerSocket serverSocket = new ServerSocket(5555);) {
-            handleGetRequestFromServerSocket(serverSocket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void handleGetRequestFromServerSocket(ServerSocket serverSocket) throws IOException {
+    public  void handleGetRequestFromServerSocket(ServerSocket serverSocket) throws IOException {
         while (true) {
             Socket socket = serverSocket.accept();
 
@@ -23,7 +13,7 @@ public class Task2 {
 
 
                 GetRequest getRequest = Utils.readRequestFromInputStream(requestInputStream);
-                File resourceFile = new File(RESOURCE_FOLDER + getRequest.getResourceRelativePath());
+                File resourceFile = new File(Constants.RESOURCE_FOLDER + getRequest.getResourceRelativePath());
 
                 byte[] responseBody;
                 try (InputStream resourceFileInputStream = new FileInputStream(resourceFile);) {
