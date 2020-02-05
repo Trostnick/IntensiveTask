@@ -12,13 +12,9 @@ public class RequestHandler {
                  OutputStream responseOutputStream = socket.getOutputStream()) {
 
                 Request request = new Request(requestInputStream);
+                MainClass.log.info(request.toString());
                 File resourceFile = new File(Constants.RESOURCE_DIRECTORY_PATH + request.getResourceRelativePath());
-                byte[] responseBody;
-                try (InputStream resourceFileInputStream = new FileInputStream(resourceFile)) {
-                    responseBody = Utils.readInputStreamAsByteArray(resourceFileInputStream);
-                }
-
-                Response response = new Response(request.getHttpVersion(), "200 OK", responseBody);
+                Response response = new Response(resourceFile, request.getHttpVersion());
                 responseOutputStream.write(response.toBytes());
             } catch (IOException | BadRequestException ignored) {
                 //TODO: сделать возврат статуса ошибки и страници ошибки

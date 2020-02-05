@@ -14,4 +14,14 @@ public class Utils {
         return result;
     }
 
+    public static String readLine ( InputStream inputStream) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        int nextSymbol = inputStream.read();
+        while (nextSymbol != -1 && nextSymbol!=Constants.LINE_SEPARATOR) {
+            stringBuilder.append(nextSymbol);
+            nextSymbol = inputStream.read();
+        }
+        return stringBuilder.toString();
+    }
+
 }

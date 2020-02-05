@@ -1,57 +1,52 @@
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
+import java.util.stream.Stream;
 
 public class Request {
 
-    private byte[] data;
     private String method;
     private String resourceRelativePath;
     private String httpVersion;
     private Map<String, String> headers;
+    private byte[] body;
 
     public Request(InputStream inputStream) throws IOException, BadRequestException {
 
-        byte[] requestBytes = Utils.readInputStreamAsByteArray(inputStream);
-        String requestString = new String(requestBytes);
-        String[] requestArray = requestString.trim().split("\r\n");
-        String[] firstRequestString = requestArray[0].split(" ");
-        this.method = firstRequestString[0];
-
         try {
-            this.resourceRelativePath = firstRequestString[1];
-            this.httpVersion = firstRequestString[2];
+            String firstLine = Utils.readLine(inputStream);
+            String[] firstStringArray = firstLine.split(" ");
+            this.method = firstStringArray[0];
+            this.resourceRelativePath = firstStringArray[1];
+            this.httpVersion = firstStringArray[2];
+
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new BadRequestException("Incorrect first row in request");
         }
 
-        Map<String, String> headers = new HashMap<>();
-        for (int i = 1; i < requestArray.length; i++) {
-            String[] currentHeader = requestArray[i].split(": ");
-            headers.put(currentHeader[0], currentHeader[1]);
+        this.headers = new HashMap<>();
+        String headerLine = Utils.readLine(inputStream);
+        while(!headerLine.isEmpty() && !headerLine.equals("\r")){
+            String[] currentHeader = headerLine.split(": ");
+            this.headers.put(currentHeader[0], currentHeader[1]);
+            headerLine = Utils.readLine(inputStream);
         }
-        this.headers = headers;
+
+
+        if (this.hasBody()){
+            this.body = Utils.readInputStreamAsByteArray(inputStream);
+        }
+
     }
 
-    public Request() {
+    public byte[] getBody() {
+        return body;
     }
 
-    public Request(byte[] data, String method, String resource, String httpVersion, Map<String, String> headers) {
-        this.data = data;
-        this.method = method;
-        this.resourceRelativePath = resource;
-        this.httpVersion = httpVersion;
-        this.headers = headers;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
+    public void setBody(byte[] body) {
+        this.body = body;
     }
 
     public String getMethod() {
@@ -84,5 +79,35 @@ public class Request {
 
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
+    }
+
+    public boolean hasBody(){
+        return this.method.equals("POST") || this.method.equals("PUT");
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.method)
+                .append(Constants.SPACE_SYMBOL)
+                .append(this.resourceRelativePath)
+                .append(Constants.SPACE_SYMBOL)
+                .append(this.httpVersion)
+                .append(Constants.LINE_SEPARATOR);
+
+        this.headers.forEach((key, value) -> {
+            stringBuilder .append(key)
+                    .append(Constants.HEADER_NAME_SEPARATOR)
+                    .append(value)
+                    .append(Constants.LINE_SEPARATOR);
+        });
+        stringBuilder.append(Constants.LINE_SEPARATOR);
+
+        if (this.hasBody()){
+            stringBuilder .append(Arrays.toString(this.body));
+        }
+
+        return stringBuilder.toString();
+
     }
 }

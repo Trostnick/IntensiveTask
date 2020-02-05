@@ -1,5 +1,4 @@
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,10 +10,13 @@ public class Response {
     private Map<String, String> headers;
     private byte[] body;
 
-    public Response(String httpVersion, String status, byte[] body) {
+    public Response(File resourceFile, String httpVersion) throws IOException {
+        try (InputStream resourceFileInputStream = new FileInputStream(resourceFile)) {
+            this.body = Utils.readInputStreamAsByteArray(resourceFileInputStream);
+        }
+
         this.httpVersion = httpVersion;
-        this.status = status;
-        this.body = body;
+        this.status = Constants.HTTP_STATUS_OK;
         this.generateDefaultHeaders();
     }
 
@@ -52,10 +54,10 @@ public class Response {
 
     private void generateDefaultHeaders() {
         Map<String, String> defaultHeaders = new HashMap<>();
-        defaultHeaders.put("Date", LocalDate.now().toString());
-        defaultHeaders.put("Content-Length", String.valueOf(this.body.length));
-        defaultHeaders.put("Content-Type", "text/html; charset=utf-8");
-        defaultHeaders.put("Connection", "Closed");
+        defaultHeaders.put(Constants.DATE, LocalDate.now().toString());
+        defaultHeaders.put(Constants.CONTENT_LENGTH, String.valueOf(this.body.length));
+        defaultHeaders.put(Constants.CONTENT_TYPE, Constants.TEXT_HTML_CHARSET_UTF_8);
+        defaultHeaders.put(Constants.CONNECTION, Constants.CLOSED);
         this.setHeaders(defaultHeaders);
     }
 
