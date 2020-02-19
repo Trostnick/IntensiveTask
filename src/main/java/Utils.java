@@ -24,4 +24,13 @@ public class Utils {
         return stringBuilder.toString();
     }
 
+    public static HashMap<String, String> convertCookieStringToMap(String cookieString){
+        HashMap<String, String> cookieMap = new HashMap<>();
+        for (String cookiePart : cookieString.split(Constants.HEADER_VALUE_SEPARATOR)){
+            String[] cookiePartArray = cookiePart.split(Constants.HEADER_VALUE_PART_SEPARATOR);
+            cookieMap.put(cookiePartArray[0], cookiePartArray[1]);
+        }
+        return cookieMap;
+    }
+
 }

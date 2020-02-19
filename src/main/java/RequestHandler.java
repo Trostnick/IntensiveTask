@@ -14,7 +14,8 @@ public class RequestHandler {
                 Request request = new Request(requestInputStream);
                 MainClass.log.info(request.toString());
                 File resourceFile = new File(Constants.RESOURCE_DIRECTORY_PATH + request.getResourceRelativePath());
-                Response response = new Response(resourceFile, request.getHttpVersion());
+                Response response = new Response(resourceFile, request);
+
                 responseOutputStream.write(response.toBytes());
             } catch (IOException | BadRequestException ignored) {
                 //TODO: сделать возврат статуса ошибки и страници ошибки
