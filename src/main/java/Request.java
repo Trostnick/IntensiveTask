@@ -28,14 +28,14 @@ public class Request {
 
         this.headers = new HashMap<>();
         String headerLine = Utils.readLine(inputStream);
-        while(!headerLine.isEmpty() && !headerLine.equals("\r")){
+        while (!headerLine.isEmpty() && !headerLine.equals("\r")) {
             String[] currentHeader = headerLine.split(": ");
             this.headers.put(currentHeader[0], currentHeader[1]);
             headerLine = Utils.readLine(inputStream);
         }
 
 
-        if (this.hasBody()){
+        if (this.hasBody()) {
             this.body = Utils.readInputStreamAsByteArray(inputStream);
         }
 
@@ -81,12 +81,12 @@ public class Request {
         this.headers = headers;
     }
 
-    public boolean hasBody(){
+    public boolean hasBody() {
         return this.method.equals("POST") || this.method.equals("PUT");
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(this.method)
                 .append(Constants.SPACE_SYMBOL)
@@ -96,15 +96,15 @@ public class Request {
                 .append(Constants.LINE_SEPARATOR);
 
         this.headers.forEach((key, value) -> {
-            stringBuilder .append(key)
+            stringBuilder.append(key)
                     .append(Constants.HEADER_NAME_SEPARATOR)
                     .append(value)
                     .append(Constants.LINE_SEPARATOR);
         });
         stringBuilder.append(Constants.LINE_SEPARATOR);
 
-        if (this.hasBody()){
-            stringBuilder .append(Arrays.toString(this.body));
+        if (this.hasBody()) {
+            stringBuilder.append(Arrays.toString(this.body));
         }
 
         return stringBuilder.toString();

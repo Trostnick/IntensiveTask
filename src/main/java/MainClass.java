@@ -10,15 +10,15 @@ public class MainClass {
 
     public static void main(String[] args) {
 
-        try {
+        /*try {
             LogManager.getLogManager().readConfiguration(
-                    MainClass.class.getResourceAsStream(Constants.RESOURCE_DIRECTORY_PATH
+                    MainClass.class..getResourceAsStream(Constants.RESOURCE_DIRECTORY_PATH
                             + Constants.LOGGING_PROPERTY_FILE_NAME));
         } catch (IOException e) {
             System.err.println("Could not setup logger configuration: " + e.toString());
-        }
+        }*/
 
-        try (ServerSocket serverSocket = new ServerSocket(5555);) {
+        try (ServerSocket serverSocket = new ServerSocket(5555)) {
             RequestHandler requestHandler = new RequestHandler();
             requestHandler.handleGetRequestFromServerSocket(serverSocket);
         } catch (IOException e) {

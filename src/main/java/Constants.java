@@ -1,10 +1,10 @@
 public class Constants {
 
-    public static final String RESOURCE_DIRECTORY_PATH = System.getProperty("user.dir") + "/src/main/java/resources/";
+    public static final String RESOURCE_DIRECTORY_PATH = System.getProperty("user.dir") + "\\src\\main\\resources\\";
     public static final String LOGGING_PROPERTY_FILE_NAME = "logging.properties";
     public static final String HEADER_NAME_SEPARATOR = ": ";
-    public static final int LINE_SEPARATOR = '\n';
-    public static final int SPACE_SYMBOL = ' ';
+    public static final char LINE_SEPARATOR = '\n';
+    public static final char SPACE_SYMBOL = ' ';
     public static final String HEADER_VALUE_SEPARATOR = ";";
     public static final String HEADER_VALUE_PART_SEPARATOR = "=";
     public static final String USER_ID_STRING = "user_id";
@@ -22,8 +22,8 @@ public class Constants {
 
     public static final long DEFAULT_LIFE_TIME_COOKIE = 60;
 
-    public static final String NEW_USER_MESSAGE = "It's a new User";
-    public static final String FAMILIAR_USER_MESSAGE = "It's a familiar User";
+    public static final String NEW_USER_MESSAGE = "It's a new User!!!!!!!!!!!!!!!!!!!!!!!";
+    public static final String FAMILIAR_USER_MESSAGE = "It's a familiar User!!!!!!!!!!!!!!!!!!!!!!!";
 
     private Constants() {
     }

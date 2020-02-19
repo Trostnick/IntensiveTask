@@ -21,7 +21,8 @@ public class Response {
         this.generateDefaultHeaders();
         if (request.getHeaders().containsKey(Constants.COOKIE_HEADER)) {
             HashMap<String, String> cookie = Utils.convertCookieStringToMap(request.getHeaders().get(Constants.COOKIE_HEADER));
-            if (Cookies.isNewUser(UUID.fromString(cookie.get(Constants.USER_ID_STRING)))) {
+            if (!(cookie.containsKey(Constants.USER_ID_STRING)) ||
+                    Cookies.isNewUser(UUID.fromString(cookie.get(Constants.USER_ID_STRING)))) {
                 MainClass.log.info(Constants.NEW_USER_MESSAGE);
                 addSetCookieHeader(Cookies.addCookie(Constants.DEFAULT_LIFE_TIME_COOKIE), Constants.DEFAULT_LIFE_TIME_COOKIE);
             } else {
